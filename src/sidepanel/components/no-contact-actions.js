@@ -57,10 +57,6 @@ export function renderNoContactActions(opts) {
         <button type="button" class="btn btn-primary no-contact-btn create-btn">Create contact</button>
         <button type="button" class="btn btn-secondary no-contact-btn add-existing-btn">Add to existing contact</button>
       </div>
-      <details class="no-contact-debug">
-        <summary>Where to see search logs</summary>
-        <p class="no-contact-debug-text">Search runs in the extension’s background. To see <code>[Xero API]</code> and <code>[Xero]</code> logs: open <strong>chrome://extensions</strong> → find this extension → click <strong>Service worker</strong> (or “Inspect views: service worker”). The console there shows the contact search trace.</p>
-      </details>
     `;
     el.querySelector('.create-btn').addEventListener('click', onShowCreate);
     el.querySelector('.add-existing-btn').addEventListener('click', onShowAddExisting);
