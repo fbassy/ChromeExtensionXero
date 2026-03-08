@@ -17,7 +17,6 @@ import { renderLoading } from './components/loading-state.js';
 import { renderErrorState } from './components/error-state.js';
 import { renderNoContactActions } from './components/no-contact-actions.js';
 import { renderOnboarding } from './components/onboarding.js';
-import { trackEvent } from '../lib/analytics.js';
 
 const LOG = (msg, ...args) => console.log('[Xero]', msg, ...args);
 
@@ -443,12 +442,12 @@ function renderWaitingForEmail() {
   render();
 })();
 
-// Track link opens to Xero (delegated)
+// Track link opens to Xero (delegated) — route via background so one client_id is used
 document.addEventListener('click', (e) => {
   const link = e.target.closest('.row-number-link[data-link-type]');
   if (link) {
     const linkType = link.getAttribute('data-link-type');
-    if (linkType) trackEvent('link_opened', { link_type: linkType });
+    if (linkType) chrome.runtime.sendMessage({ type: MSG.TRACK_EVENT, name: 'link_opened', params: { link_type: linkType } }).catch(() => {});
   }
 });
 

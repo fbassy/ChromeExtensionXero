@@ -6,7 +6,8 @@
   "scripts": {
     "build": "webpack --mode production",
     "watch": "webpack --mode development --watch",
-    "clean": "rm -rf dist"
+    "clean": "rm -rf dist",
+    "package": "npm run build && cd dist && zip -r ../xero-for-gmail-${npm_package_version}.zip . -x '*.DS_Store' && cd .. && echo \"Created xero-for-gmail-${npm_package_version}.zip\""
   },
   "devDependencies": {
     "copy-webpack-plugin": "^12.0.2",

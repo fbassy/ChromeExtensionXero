@@ -31,6 +31,8 @@ The extension sends events via the [GA4 Measurement Protocol](https://developers
 
 A persistent **client_id** (UUID) is stored in `chrome.storage.local` per install so GA4 can report **unique users**. No email or PII is sent.
 
+**Unique users:** One user = one `client_id`. The ID is created only in the background script when it starts, and all events (including those triggered from the side panel) are sent via the background. That way multiple extension contexts never create multiple IDs, so the count is accurate.
+
 ## Privacy
 
 - Declare analytics in your Chrome Web Store listing and in your privacy policy.

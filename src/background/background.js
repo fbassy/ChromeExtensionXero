@@ -16,10 +16,13 @@ import {
 } from '../lib/xero-api.js';
 import { getTenants, getSelectedTenant, setSelectedTenant } from '../lib/token-store.js';
 import { getSenderForActiveGmailTab } from '../lib/gmail-api.js';
-import { trackEvent } from '../lib/analytics.js';
+import { trackEvent, getOrCreateClientId } from '../lib/analytics.js';
 
 const LOG = (msg, ...args) => console.log('[Xero]', msg, ...args);
 if (typeof __BUILD_VERSION__ !== 'undefined') LOG('background build', __BUILD_VERSION__);
+
+// Ensure GA client_id exists as soon as background loads (single writer = accurate unique users)
+getOrCreateClientId().catch(() => {});
 
 // ---- Side Panel Lifecycle ----
 
@@ -137,6 +140,10 @@ async function handleMessage(message, sender) {
 
     case MSG.ADD_EMAIL_TO_CONTACT:
       return await handleAddEmailToContact(message.contactId, message.email);
+
+    case MSG.TRACK_EVENT:
+      await trackEvent(message.name, message.params || {});
+      return;
   }
 }
 
